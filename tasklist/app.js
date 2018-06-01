@@ -18,7 +18,7 @@ function loadEventListeners() {
 
 // functions
 // get tasks from ls
-function getTasks() {
+function getTasksFromLocalStorage() {
 	let tasks;
 	if (localStorage.getItem('tasks') === null) {
 		tasks = [];
@@ -26,20 +26,15 @@ function getTasks() {
 		tasks = JSON.parse(localStorage.getItem('tasks'));
 	}
 
+	return tasks;
+}
+
+// append tasks to the DOM
+function getTasks() {
+	let tasks = getTasksFromLocalStorage();
+
 	tasks.forEach(task => {
-		// create li
-		const li = document.createElement('li');
-		li.className = 'collection-item';
-		li.appendChild(document.createTextNode(task));
-
-		// create link
-		const link = document.createElement('a');
-		link.className = 'delete-item secondary-content';
-		link.innerHTML = '<i class="fas fa-times"></i>';
-
-		li.appendChild(link);
-
-		taskList.appendChild(li);
+		addTaskDOM(task);
 	});
 }
 
@@ -51,19 +46,7 @@ function addTask(e) {
 		alert('Add a task');
 	} else {
 
-		// create li
-		const li = document.createElement('li');
-		li.className = 'collection-item';
-		li.appendChild(document.createTextNode(taskInput.value));
-
-		// create link
-		const link = document.createElement('a');
-		link.className = 'delete-item secondary-content';
-		link.innerHTML = '<i class="fas fa-times"></i>';
-
-		li.appendChild(link);
-
-		taskList.appendChild(li);
+		addTaskDOM(taskInput.value);
 
 		// store in ls
 		storeTaskInLocalStorage(taskInput.value);
@@ -72,13 +55,25 @@ function addTask(e) {
 	}
 }
 
+// add task to the DOM
+function addTaskDOM(task) {
+	// create li
+	const li = document.createElement('li');
+	li.className = 'collection-item';
+	li.appendChild(document.createTextNode(task));
+
+	// create link
+	const link = document.createElement('a');
+	link.className = 'delete-item secondary-content';
+	link.innerHTML = '<i class="fas fa-times"></i>';
+
+	li.appendChild(link);
+
+	taskList.appendChild(li);
+}
+
 function storeTaskInLocalStorage(task) {
-	let tasks;
-	if (localStorage.getItem('tasks') === null) {
-		tasks = [];
-	} else {
-		tasks = JSON.parse(localStorage.getItem('tasks'));
-	}
+	let tasks = getTasksFromLocalStorage();
 
 	tasks.push(task);
 
@@ -97,12 +92,7 @@ function removeTask(e) {
 }
 
 function removeTaskFromLocalStorage(taskItem) {
-	let tasks;
-	if (localStorage.getItem('tasks') === null) {
-		tasks = [];
-	} else {
-		tasks = JSON.parse(localStorage.getItem('tasks'));
-	}
+	let tasks = getTasksFromLocalStorage();
 
 	tasks.forEach((task, index) => {
 		if (taskItem.textContent === task) {
@@ -120,7 +110,11 @@ function clearTasks() {
 	while(taskList.firstChild) {
 		taskList.removeChild(taskList.firstChild);
 	}
-	localStorage.clear();
+	clearLocalStorage();
+}
+
+function clearLocalStorage() {
+	localStorage.removeItem('tasks');
 }
 
 // filter tasks

@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-	<title>Hello, world!</title>
+	<title>Loan calculator</title>
 	<!-- Required meta tags -->
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -10,6 +10,11 @@
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
 	 crossorigin="anonymous">
+	 <style>
+		 #loading, #results {
+			 display: none;
+		 }
+	 </style>
 </head>
 
 <body class="bg-dark">
@@ -43,9 +48,9 @@
 						</div>
 					</form>
 					<!-- LOADER HERE -->
-					<!-- <div id="loading">
+					<div id="loading">
 						<img src="img/loading.gif" alt="Loading">
-					</div> -->
+					</div> 
 					<!-- RESULTS -->
 					<div id="results">
 						<h5>Results</h5>
